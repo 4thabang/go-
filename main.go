@@ -7,11 +7,9 @@ import (
 const (
 	spanish            = "Spanish"
 	french             = "French"
-	chinese            = "Chinese"
 	englishHelloPrefix = "Hello, "
 	spanishHelloPrefix = "Hola, "
 	frenchHelloPrefix  = "Bonjour, "
-	chineseHelloPrefix = "NiHao, "
 )
 
 func main() {
@@ -33,8 +31,6 @@ func greetingPrefix(language string) (prefix string) {
 		prefix = frenchHelloPrefix
 	case spanish:
 		prefix = spanishHelloPrefix
-	case chinese:
-		prefix = chineseHelloPrefix
 	default:
 		prefix = englishHelloPrefix
 	}
