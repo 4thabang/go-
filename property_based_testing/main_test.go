@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"testing"
+	"testing/quick"
 )
 
 type TestingConversion struct {
-	Arabic int
+	Arabic uint16
 	Roman  string
 }
 
@@ -65,5 +67,22 @@ func TestConvertToArabic(t *testing.T) {
 				t.Errorf("got: %d, want: %d", got, tc.Arabic)
 			}
 		})
+	}
+}
+
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic uint16) bool {
+		if arabic > 3999 {
+			log.Println(arabic)
+			return true
+		}
+		roman := ConvertToRoman(arabic)
+		fromRoman := ConvertToArabic(roman)
+		return fromRoman == arabic
+	}
+	if err := quick.Check(assertion, &quick.Config{
+		MaxCount: 1000,
+	}); err != nil {
+		t.Error("failed checks", err)
 	}
 }
