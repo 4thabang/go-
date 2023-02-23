@@ -5,11 +5,13 @@ import (
 	"testing"
 )
 
+type TestingConversion struct {
+	Arabic int
+	Roman  string
+}
+
 var (
-	testCases = []struct {
-		Arabic int
-		Roman  string
-	}{
+	testCases = []TestingConversion{
 		{Arabic: 1, Roman: "I"},
 		{Arabic: 2, Roman: "II"},
 		{Arabic: 3, Roman: "III"},
@@ -47,7 +49,6 @@ func TestRomanNumeral(t *testing.T) {
 		testName := fmt.Sprintf("%d converts to %s", tc.Arabic, tc.Roman)
 		t.Run(testName, func(t *testing.T) {
 			got := ConvertToRoman(tc.Arabic)
-
 			if got != tc.Roman {
 				t.Errorf("got: %q, want: %q", got, tc.Roman)
 			}
