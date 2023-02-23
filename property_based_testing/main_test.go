@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestRomanNumeral(t *testing.T) {
-	testCases := []struct {
+var (
+	testCases = []struct {
 		Arabic int
 		Roman  string
 	}{
@@ -40,7 +40,9 @@ func TestRomanNumeral(t *testing.T) {
 		{Arabic: 1006, Roman: "MVI"},
 		{Arabic: 798, Roman: "DCCXCVIII"},
 	}
+)
 
+func TestRomanNumeral(t *testing.T) {
 	for _, tc := range testCases {
 		testName := fmt.Sprintf("%d converts to %s", tc.Arabic, tc.Roman)
 		t.Run(testName, func(t *testing.T) {
@@ -48,6 +50,18 @@ func TestRomanNumeral(t *testing.T) {
 
 			if got != tc.Roman {
 				t.Errorf("got: %q, want: %q", got, tc.Roman)
+			}
+		})
+	}
+}
+
+func TestConvertToArabic(t *testing.T) {
+	for _, tc := range testCases[:1] {
+		testName := fmt.Sprintf("%d converts to %s", tc.Arabic, tc.Roman)
+		t.Run(testName, func(t *testing.T) {
+			got := ConvertToArabic(tc.Roman)
+			if got != tc.Arabic {
+				t.Errorf("got: %d, want: %d", got, tc.Arabic)
 			}
 		})
 	}
