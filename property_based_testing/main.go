@@ -4,13 +4,15 @@ import (
 	"strings"
 )
 
-type RomanNumerals struct {
+type RomanNumeral struct {
 	Value  int
 	Symbol string
 }
 
+type RomanNumerals []RomanNumeral
+
 var (
-	allNumerals = []RomanNumerals{
+	allNumerals = RomanNumerals{
 		{1000, "M"},
 		{900, "CM"},
 		{500, "D"},
@@ -27,6 +29,15 @@ var (
 	}
 )
 
+func (r RomanNumerals) ValueOf(symbol string) int {
+	for _, s := range r {
+		if s.Symbol == symbol {
+			return s.Value
+		}
+	}
+	return 0
+}
+
 func ConvertToRoman(arabic int) string {
 	var str strings.Builder
 	for _, numeral := range allNumerals {
@@ -40,9 +51,30 @@ func ConvertToRoman(arabic int) string {
 
 func ConvertToArabic(roman string) int {
 	total := 0
-	for i := 0; i < len(roman); i++ {
-		total++
-	}
 
+	for i := 0; i < len(roman); i++ {
+		symbol := roman[i]
+
+		if couldBeSubtractive(i, symbol, roman) {
+			nextSymbol := roman[i+1]
+
+			potentialNumber := string([]byte{symbol, nextSymbol})
+
+			value := allNumerals.ValueOf(potentialNumber)
+
+			if value != 0 {
+				total += value
+				i++
+			} else {
+				total++
+			}
+		} else {
+			total++
+		}
+	}
 	return total
+}
+
+func couldBeSubtractive(index int, currentSymbol uint8, roman string) bool {
+	return index+1 < len(roman) && currentSymbol == 'I'
 }
