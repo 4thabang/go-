@@ -29,13 +29,15 @@ var (
 
 func ConvertToRoman(arabic int) string {
 	var str strings.Builder
-
 	for _, numeral := range allNumerals {
 		for arabic >= numeral.Value {
 			str.WriteString(numeral.Symbol)
 			arabic -= numeral.Value
 		}
 	}
-
 	return str.String()
+}
+
+func ConvertToArabic(roman string) int {
+	return 0
 }
