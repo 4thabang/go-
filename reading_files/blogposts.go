@@ -20,7 +20,7 @@ func NewPostFromFS(fileSystem fs.FS) ([]Post, error) {
 		return nil, err
 	}
 	for _, f := range dir {
-		p, err := getPost(fileSystem, f)
+		p, err := getPost(fileSystem, f.Name())
 		if err != nil {
 			return nil, err
 		}
@@ -29,8 +29,8 @@ func NewPostFromFS(fileSystem fs.FS) ([]Post, error) {
 	return posts, nil
 }
 
-func getPost(fileSystem fs.FS, f fs.DirEntry) (Post, error) {
-	postFile, err := fileSystem.Open(f.Name())
+func getPost(fileSystem fs.FS, f string) (Post, error) {
+	postFile, err := fileSystem.Open(f)
 	if err != nil {
 		return Post{}, err
 	}
