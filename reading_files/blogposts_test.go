@@ -16,35 +16,36 @@ func (StubFailingFS) Open(name string) (fs.File, error) {
 }
 
 func TestNewBlogPost(t *testing.T) {
-	/*
-	 *  t.Run("2 files in filesystem", func(t *testing.T) {
-	 *    fs := fstest.MapFS{
-	 *      "hello_world.md":  {Data: []byte("hi")},
-	 *      "hello_world2.md": {Data: []byte("hola")},
-	 *    }
-	 *
-	 *    posts, err := blogposts.NewPostFromFS(fs)
-	 *
-	 *    if err != nil {
-	 *      t.Fatal(err)
-	 *    }
-	 *
-	 *    if len(posts) != len(fs) {
-	 *      t.Errorf("got: %d posts, want: %d posts", len(posts), len(fs))
-	 *    }
-	 *  })
-	 */
+	t.Run("filesystem title, description", func(t *testing.T) {
+		const (
+			firstBody = `Title: Post 1
+Description: Description 1
+Tags: tdd, go
+---
+Hello
+World`
+			secondBody = `Title: Post 2
+Description: Description 2
+Tags: rust, borrow-checker
+---
+Deploi
+Fordabl`
+		)
 
-	t.Run("using filesystem fields", func(t *testing.T) {
 		fs := fstest.MapFS{
-			"hello_world.md":  {Data: []byte("Title: Post 1")},
-			"hello_world2.md": {Data: []byte("Title: Post 2")},
+			"hello_world.md":  {Data: []byte(firstBody)},
+			"hello_world2.md": {Data: []byte(secondBody)},
 		}
 
 		posts, _ := blogposts.NewPostFromFS(fs)
 		got := posts[0]
-		want := blogposts.Post{Title: "Post 1"}
-
+		want := blogposts.Post{
+			Title:       "Post 1",
+			Description: "Description 1",
+			Tags:        []string{"tdd", "go"},
+			Body: `Hello
+World`,
+		}
 		assertPost(t, got, want)
 	})
 }
