@@ -36,3 +36,7 @@ func (p *PostRender) Render(w io.Writer, post Post) error {
 	}
 	return nil
 }
+
+func RenderIndex(w io.Writer, posts []Post) error {
+	return nil
+}
