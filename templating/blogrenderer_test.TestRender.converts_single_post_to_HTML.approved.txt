@@ -1,5 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My blog!</title>
+    <meta charset="UTF-8"/>
+    <meta name="description" content="Where we speak about Rust and Golang, GC or BC?" lang="en"/>
+</head>
+<body>
+<nav role="navigation">
+    <div>
+        <h1>Pragmatic Polymaths blog</h1>
+        <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="about">about</a></li>
+            <li><a href="archive">archive</a></li>
+        </ul>
+    </div>
+</nav>
+<main>
+
 <h1>hello world</h1>
 
 <p>This is a description</p>
 
 Tags: <ul><li>go</li><li>tdd</li></ul>
+
+</main>
+<footer>
+    <ul>
+        <li><a href="https://instagram.com/4thabang">Twitter</a></li>
+        <li><a href="https://github.com/4thabang">GitHub</a></li>
+    </ul>
+</footer>
+</body>
+</html>
+
