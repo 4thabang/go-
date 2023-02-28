@@ -13,8 +13,8 @@ var (
 )
 
 type Post struct {
-	Title, SanitisedTitle, Description, Body string
-	Tags                                     []string
+	Title, Description, Body string
+	Tags                     []string
 }
 
 type PostRender struct {
@@ -31,26 +31,14 @@ func NewPostRender() (*PostRender, error) {
 	}, nil
 }
 
-func (p *PostRender) Render(w io.Writer, post Post) error {
-	if err := p.templ.Execute(w, post); err != nil {
-		return err
-	}
-	return nil
+func (p Post) SanitisedTitle() string {
+	return strings.ToLower(strings.ReplaceAll(p.Title, " ", "-"))
 }
 
-func (p *PostRender) RenderIndex(w io.Writer, posts []Post) error {
-	indexTempl := `<ol>{{range .}}<li><a href="/post/{{sanitiseTitle .Title}}">{{.Title}}</a></li>{{end}}</ol>`
-	templ, err := template.New("index").Funcs(template.FuncMap{
-		"sanitiseTitle": func(title string) string {
-			return strings.ToLower(strings.ReplaceAll(title, " ", "-"))
-		},
-	}).Parse(indexTempl)
-	if err != nil {
-		return err
-	}
+func (r *PostRender) Render(w io.Writer, p Post) error {
+	return r.templ.ExecuteTemplate(w, "blog.gohtml", p)
+}
 
-	if templ.Execute(w, posts); err != nil {
-		return err
-	}
-	return nil
+func (r *PostRender) RenderIndex(w io.Writer, p []Post) error {
+	return r.templ.ExecuteTemplate(w, "index.gohtml", p)
 }
