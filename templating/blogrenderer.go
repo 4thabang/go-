@@ -12,9 +12,9 @@ var (
 	postTemplate embed.FS
 )
 
-type Post struct {
-	Title, Description, Body string
-	Tags                     []string
+type PostViewModel struct {
+	Title, SanitisedTitle, Description, Body string
+	Tags                                     []string
 }
 
 type PostRender struct {
@@ -31,14 +31,14 @@ func NewPostRender() (*PostRender, error) {
 	}, nil
 }
 
-func (p *PostRender) Render(w io.Writer, post Post) error {
+func (p *PostRender) Render(w io.Writer, post PostViewModel) error {
 	if err := p.templ.Execute(w, post); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (p *PostRender) RenderIndex(w io.Writer, posts []Post) error {
+func (p *PostRender) RenderIndex(w io.Writer, posts []PostViewModel) error {
 	indexTempl := `<ol>{{range .}}<li><a href="/post/{{sanitiseTitle .Title}}">{{.Title}}</a></li>{{end}}</ol>`
 	templ, err := template.New("index").Funcs(template.FuncMap{
 		"sanitiseTitle": func(title string) string {
