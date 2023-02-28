@@ -29,7 +29,6 @@ func TestRender(t *testing.T) {
 		if err := templ.Render(&buf, aPost); err != nil {
 			t.Fatal(err)
 		}
-
 		approvals.VerifyString(t, buf.String())
 	})
 }
