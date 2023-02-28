@@ -21,25 +21,44 @@ var (
 func TestRender(t *testing.T) {
 	t.Run("converts single post to HTML", func(t *testing.T) {
 		var buf bytes.Buffer
-		templ, err := blogrenderer.NewPostRender()
+		postRender, err := blogrenderer.NewPostRender()
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if err := templ.Render(&buf, aPost); err != nil {
+		if err := postRender.Render(&buf, aPost); err != nil {
 			t.Fatal(err)
 		}
 		approvals.VerifyString(t, buf.String())
 	})
+
+	t.Run("renders an index of posts", func(t *testing.T) {
+		var buf bytes.Buffer
+		posts := []blogrenderer.Post{
+			{Title: "Hello world"},
+			{Title: "Hello world 2"},
+		}
+
+		if err := blogrenderer.RenderIndex(&buf, posts); err != nil {
+			t.Fatal(err)
+		}
+
+		got := buf.String()
+		want := `<ol><li><a href="/post/hello-world">Hello World</a></li><li><a href="/post/hello-world-2">Hello World 2</a></li></ol>`
+
+		if got != want {
+			t.Errorf("got: %s, want: %s", got, want)
+		}
+	})
 }
 
 func BenchmarkRender(b *testing.B) {
-	templ, err := blogrenderer.NewPostRender()
+	postRender, err := blogrenderer.NewPostRender()
 	if err != nil {
 		b.Fatal(err)
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		templ.Render(io.Discard, aPost)
+		postRender.Render(io.Discard, aPost)
 	}
 }
