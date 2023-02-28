@@ -4,6 +4,7 @@ import (
 	"embed"
 	"html/template"
 	"io"
+	"strings"
 )
 
 var (
@@ -38,5 +39,18 @@ func (p *PostRender) Render(w io.Writer, post Post) error {
 }
 
 func (p *PostRender) RenderIndex(w io.Writer, posts []Post) error {
+	indexTempl := `<ol>{{range .}}<li><a href="/post/{{sanitiseTitle .Title}}">{{.Title}}</a></li>{{end}}</ol>`
+	templ, err := template.New("index").Funcs(template.FuncMap{
+		"sanitiseTitle": func(title string) string {
+			return strings.ToLower(strings.ReplaceAll(title, " ", "-"))
+		},
+	}).Parse(indexTempl)
+	if err != nil {
+		return err
+	}
+
+	if templ.Execute(w, posts); err != nil {
+		return err
+	}
 	return nil
 }
