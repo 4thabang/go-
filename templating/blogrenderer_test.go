@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	aPost = blogrenderer.PostViewModel{
+	aPost = blogrenderer.Post{
 		Title:       "hello world",
 		Body:        "This is a post",
 		Description: "This is a description",
@@ -34,7 +34,7 @@ func TestRender(t *testing.T) {
 
 	t.Run("renders an index of posts", func(t *testing.T) {
 		var buf bytes.Buffer
-		posts := []blogrenderer.PostViewModel{
+		posts := []blogrenderer.Post{
 			{Title: "Hello World"},
 			{Title: "Hello World 2"},
 		}
