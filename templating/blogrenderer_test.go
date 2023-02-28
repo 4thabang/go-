@@ -35,8 +35,8 @@ func TestRender(t *testing.T) {
 	t.Run("renders an index of posts", func(t *testing.T) {
 		var buf bytes.Buffer
 		posts := []blogrenderer.Post{
-			{Title: "Hello world"},
-			{Title: "Hello world 2"},
+			{Title: "Hello World"},
+			{Title: "Hello World 2"},
 		}
 		postRender, err := blogrenderer.NewPostRender()
 		if err != nil {
