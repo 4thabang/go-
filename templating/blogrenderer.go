@@ -16,13 +16,22 @@ type Post struct {
 	Tags                     []string
 }
 
-func Render(w io.Writer, p Post) error {
-	templ, err := template.ParseFS(postTemplate, "templates/*.gohtml")
-	if err != nil {
-		return err
-	}
+type PostRender struct {
+	templ *template.Template
+}
 
-	if err := templ.Execute(w, p); err != nil {
+func NewPostRender() (*PostRender, error) {
+	t, err := template.ParseFS(postTemplate, "templates/*.gohtml")
+	if err != nil {
+		return nil, err
+	}
+	return &PostRender{
+		templ: t,
+	}, nil
+}
+
+func (p *PostRender) Render(w io.Writer, post Post) error {
+	if err := p.templ.Execute(w, post); err != nil {
 		return err
 	}
 	return nil
