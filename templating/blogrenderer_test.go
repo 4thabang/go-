@@ -35,7 +35,10 @@ func TestRender(t *testing.T) {
 }
 
 func BenchmarkRender(b *testing.B) {
-	templ, _ := blogrenderer.NewPostRender()
+	templ, err := blogrenderer.NewPostRender()
+	if err != nil {
+		b.Fatal(err)
+	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		templ.Render(io.Discard, aPost)
