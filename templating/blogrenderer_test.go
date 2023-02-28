@@ -38,8 +38,12 @@ func TestRender(t *testing.T) {
 			{Title: "Hello world"},
 			{Title: "Hello world 2"},
 		}
+		postRender, err := blogrenderer.NewPostRender()
+		if err != nil {
+			t.Fatal(err)
+		}
 
-		if err := blogrenderer.RenderIndex(&buf, posts); err != nil {
+		if err := postRender.RenderIndex(&buf, posts); err != nil {
 			t.Fatal(err)
 		}
 
