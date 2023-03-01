@@ -13,7 +13,6 @@ import (
 var (
 	//go:embed "templates/*"
 	postTemplate embed.FS
-	m            string
 )
 
 type Post struct {
