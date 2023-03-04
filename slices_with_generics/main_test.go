@@ -30,9 +30,7 @@ func TestSumFunction(t *testing.T) {
 
 	for _, tt := range tables {
 		t.Run(tt.name, func(t *testing.T) {
-			for _, num := range tt.input {
-				tt.want += num
-			}
+			tt.want = reduce(tt.input, 0, reducer[int])
 			tt.got = SumFunction(tt.input)
 			assertHandler(t, tt.input, tt.got, tt.want)
 		})
