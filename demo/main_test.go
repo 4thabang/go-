@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"testing"
 )
 
@@ -22,5 +23,19 @@ func TestSumMapReduce(t *testing.T) {
 				t.Errorf("got: %d, want: %d", got, tc.want)
 			}
 		})
+	}
+}
+
+func TestWriteToFile(t *testing.T) {
+	var buf bytes.Buffer
+	err := WriteToFile(&buf, "some-data")
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := buf.String()
+	want := "some-data"
+
+	if got != want {
+		t.Errorf("got: %s, want: %s", got, want)
 	}
 }
