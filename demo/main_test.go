@@ -24,6 +24,3 @@ func TestSumMapReduce(t *testing.T) {
 		})
 	}
 }
-
-func TestCreateFile(t *testing.T) {
-}
