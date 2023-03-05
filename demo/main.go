@@ -3,12 +3,24 @@ package main
 import (
 	"fmt"
 	"io"
+	"os"
 )
 
 func main() {
 	slc := []int{1, 2, 3, 4, 5}
 	result := SumMapReduce(slc)
 	fmt.Println(result)
+
+	fileMap := map[string]string{
+		"test.txt":   "Hello, world",
+		"noTest.txt": "Bye, world",
+	}
+
+	for fileName, fileData := range fileMap {
+		if err := CreateFile(fileName, fileData); err != nil {
+			panic(err)
+		}
+	}
 }
 
 func SumMapReduce(nums []int) int {
@@ -28,6 +40,23 @@ func iterator(initValue, value int) int {
 	return initValue
 }
 
-func WriteToFile(w io.Writer) error {
+func CreateFile(fileName string, data string) error {
+	file, err := os.Create(fileName)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	if err := WriteToFile(file, data); err != nil {
+		return err
+	}
+	return nil
+}
+
+func WriteToFile(w io.Writer, data string) error {
+	_, err := w.Write([]byte(data))
+	if err != nil {
+		return err
+	}
 	return nil
 }
