@@ -16,6 +16,6 @@ func (s some) Greet() (string, error) {
 }
 
 func TestGreeter(t *testing.T) {
-	s := some("")
+	s := some("world")
 	specifications.GreetSpecification(t, s)
 }
