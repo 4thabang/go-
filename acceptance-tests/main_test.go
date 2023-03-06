@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-type system string
+type driver string
 
-func (s system) Greet() (string, error) {
+func (s driver) Greet() (string, error) {
 	if s == "" {
 		return "", fmt.Errorf("empty string")
 	}
@@ -16,6 +16,6 @@ func (s system) Greet() (string, error) {
 }
 
 func TestGreeter(t *testing.T) {
-	s := system("world")
+	s := driver("world")
 	specifications.GreetSpecification(t, s)
 }
