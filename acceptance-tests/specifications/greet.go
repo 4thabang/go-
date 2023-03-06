@@ -12,6 +12,9 @@ type Greeter interface {
 
 func GreetSpecification(t testing.TB, greeter Greeter) {
 	got, err := greeter.Greet()
+	if err != nil {
+		t.Fatal(err)
+	}
 	assert.NoError(t, err)
 	assert.Equal(t, got, "Hello, world")
 }
