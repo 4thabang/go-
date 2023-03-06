@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-type greeting string
+type system string
 
-func (s greeting) Greet() (string, error) {
+func (s system) Greet() (string, error) {
 	if s == "" {
 		return "", fmt.Errorf("empty string")
 	}
@@ -16,6 +16,6 @@ func (s greeting) Greet() (string, error) {
 }
 
 func TestGreeter(t *testing.T) {
-	s := greeting("world")
+	s := system("world")
 	specifications.GreetSpecification(t, s)
 }
