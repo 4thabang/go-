@@ -8,14 +8,14 @@ import (
 
 type driver string
 
-func (s driver) Greet() (string, error) {
-	if s == "" {
+func (d driver) Greet() (string, error) {
+	if d == "" {
 		return "", fmt.Errorf("empty string")
 	}
-	return fmt.Sprintf("Hello, %s", s), nil
+	return fmt.Sprintf("Hello, %s", d), nil
 }
 
 func TestGreeter(t *testing.T) {
-	s := driver("world")
-	specifications.GreetSpecification(t, s)
+	d := driver("world")
+	specifications.GreetSpecification(t, d)
 }
