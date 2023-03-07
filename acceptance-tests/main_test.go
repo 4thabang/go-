@@ -15,7 +15,6 @@ func (d driver) Greet() (string, error) {
 	return fmt.Sprintf("Hello, %s", d), nil
 }
 
-func TestGreeter(t *testing.T) {
-	d := driver("world")
-	specifications.GreetSpecification(t, d)
+func TestGreetServer(t *testing.T) {
+	specifications.GreetSpecification(t, nil)
 }
